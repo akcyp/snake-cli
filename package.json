@@ -1,0 +1,32 @@
+{
+  "name": "snake-cli",
+  "version": "1.0.0",
+  "description": "Nodejs cli snake game",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "keywords": [
+    "Snake",
+    "Game",
+    "CLI"
+  ],
+  "dependencies": {
+    "chalk": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.26",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "author": "akcyp",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akcyp/node-snake-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akcyp/node-snake-cli/issues"
+  },
+  "homepage": "https://github.com/akcyp/node-snake-cli#readme"
+}
