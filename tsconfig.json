@@ -2,7 +2,14 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "lib": ["DOM", "ESNext"],
-    "outDir": "lib"
+    "outDir": "lib",
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true,
+    "strict": true,
+    "removeComments": true,
+    "downlevelIteration": true
   },
-  "include": ["src/*"]
+  "include": ["src"],
+  "exclude": ["node_modules", "lib"]
 }
