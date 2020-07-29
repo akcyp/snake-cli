@@ -13,3 +13,5 @@ npm i akcyp/snake-cli
 ```bash
 snake
 ```
+
+![Example ss](ss.jpg)
