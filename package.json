@@ -11,14 +11,14 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
-    "prepare" : "npm run build",
-    "prepublishOnly" : "npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "bin": {
-    "snake-cli": "./lib/index.js"
+    "snake": "node ./lib/index.js"
   },
   "keywords": [
     "Snake",
@@ -32,7 +32,6 @@
     "@types/node": "^14.0.26",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
-    "tsify": "^5.0.0",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
     "tslint-loader": "^3.5.4",
