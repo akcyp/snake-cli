@@ -1,8 +1,9 @@
-import inputController from './src/InputController';
-import SnakeGame from './src/SnakeGame';
+import inputController from './InputController';
+import SnakeGame from './SnakeGame';
 
 const game = new SnakeGame({
-  moveThroughWall: false
+  moveThroughWall: false,
+  speed: 10
 });
 game.on('gameOver', () => {
   process.stdin.on('keypress', () => process.exit());

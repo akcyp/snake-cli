@@ -1,10 +1,14 @@
 {
   "name": "snake-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nodejs cli snake game",
-  "main": "index.ts",
+  "main": "./lib/index.ts",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "bin": {
+    "snake-cli": "./lib/index.js"
   },
   "keywords": [
     "Snake",

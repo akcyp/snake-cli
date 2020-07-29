@@ -5,23 +5,28 @@ class Printer {
   constructor (public game: SnakeGame) {}
   print () {
     console.clear();
+    const wallChar = this.game.isGameOver() ? chalk.red('#') : '#';
     const rows = [];
-    rows.push('# '.repeat(this.game.width + 2));
+    rows.push((wallChar + ' ').repeat(this.game.width + 2));
     for (let y = this.game.height - 1; y >= 0; y--) {
-      let row = '# ';
+      let row = wallChar + ' ';
       for (let x = 0; x < this.game.width; x++) {
         if (this.game.foodManager.foods.some((p) => (p.x === x && p.y === y))) {
-          row += '@ ';
+          row += chalk.green('@ ');
         } else if (this.game.snake.body.some((p) => (p.x === x && p.y === y))) {
-          row += 'x ';
+          if (this.game.isGameOver()) {
+            row += chalk.red('x ');
+          } else {
+            row += chalk.blue('x ');
+          }
         } else {
           row += '  ';
         }
       }
-      row += '# '
+      row += (wallChar + ' ')
       rows.push(row);
     }
-    rows.push('# '.repeat(this.game.width + 2));
+    rows.push((wallChar + ' ').repeat(this.game.width + 2));
     process.stdout.write(rows.join('\n'));
     process.stdout.write('\u001B[?25l');
   }

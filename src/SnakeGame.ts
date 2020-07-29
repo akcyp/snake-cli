@@ -17,9 +17,11 @@ export enum Direction {
 
 interface IGameConfig {
   moveThroughWall?: boolean;
+  speed?: number;
 }
 
 export default class SnakeGame extends EventEmitter {
+  private gameOvered = false;
   public config: IGameConfig;
   public snake: Snake;
   public foodManager: FoodManager;
@@ -32,6 +34,9 @@ export default class SnakeGame extends EventEmitter {
     left: [-1, 0],
     up: [0, 1],
     down: [0, -1]
+  }
+  public isGameOver () {
+    return this.gameOvered;
   }
   public isNotStarted () {
     return this.snake.dx === 0 && this.snake.dy === 0;
@@ -52,14 +57,15 @@ export default class SnakeGame extends EventEmitter {
   constructor (config: IGameConfig = {}) {
     super();
     this.config = Object.assign({
-      moveThroughWall: true
+      moveThroughWall: true,
+      speed: 1000
     }, config);
     this.snake = new Snake(this);
     this.foodManager = new FoodManager(this);
     this.printer.print();
   }
   start () {
-    this.interval = setInterval(() => this.tick(), 200);
+    this.interval = setInterval(() => this.tick(), 1000 / this.config.speed);
   }
   setSnakeMoveDirection (key: Direction) {
     const [dx, dy] = this.keyBindings[key];
@@ -79,7 +85,9 @@ export default class SnakeGame extends EventEmitter {
     this.printer.print();
   }
   gameOver () {
+    this.gameOvered = true;
     this.emit('gameOver', true);
+    this.printer.print();
     this.destroy();
   }
   destroy() {
