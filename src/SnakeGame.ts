@@ -7,13 +7,20 @@ export enum Vector {
   Up = 'up',
   Down = 'down',
   Left = 'left',
-  Right = 'right'
+  Right = 'right',
 }
 
 export enum Direction {
   Horizontal = 'horizontal',
-  Vertical = 'vertical'
+  Vertical = 'vertical',
 }
+
+const keyBindings: { [id: string]: [number, number] } = {
+  right: [1, 0],
+  left: [-1, 0],
+  up: [0, 1],
+  down: [0, -1],
+};
 
 interface IGameConfig {
   moveThroughWall?: boolean;
@@ -25,50 +32,47 @@ export default class SnakeGame extends EventEmitter {
   public config: IGameConfig;
   public snake: Snake;
   public foodManager: FoodManager;
-  public interval: NodeJS.Timeout;
+  public interval: NodeJS.Timeout | null = null;
   public printer = new Printer(this);
   public width = Math.floor(process.stdout.columns / 2) - 2;
   public height = Math.floor(process.stdout.rows / 1) - 2;
-  public keyBindings = {
-    right: [1, 0],
-    left: [-1, 0],
-    up: [0, 1],
-    down: [0, -1]
-  }
-  public isGameOver () {
+  public isGameOver() {
     return this.gameOvered;
   }
-  public isNotStarted () {
+  public isNotStarted() {
     return this.snake.dx === 0 && this.snake.dy === 0;
   }
-  public getVector (dx: number, dy: number) {
-    return Object.keys(this.keyBindings).find(key => {
-      const [x, y] = this.keyBindings[key];
+  public getVector(dx: number, dy: number) {
+    return Object.keys(keyBindings).find((key) => {
+      const [x, y] = keyBindings[key];
       return x === dx && y === dy;
     }) as Vector;
   }
-  public getDir (vector: Vector) {
+  public getDir(vector: Vector) {
     if (vector === Vector.Down || vector === Vector.Up) {
       return Direction.Vertical;
     } else {
       return Direction.Horizontal;
     }
   }
-  constructor (config: IGameConfig = {}) {
+  constructor(config: IGameConfig = {}) {
     super();
-    this.config = Object.assign({
-      moveThroughWall: true,
-      speed: 1000
-    }, config);
+    this.config = Object.assign(
+      {
+        moveThroughWall: true,
+        speed: 1000,
+      },
+      config,
+    );
     this.snake = new Snake(this);
     this.foodManager = new FoodManager(this);
     this.printer.print();
   }
-  start () {
-    this.interval = setInterval(() => this.tick(), 1000 / this.config.speed);
+  start() {
+    this.interval = setInterval(() => this.tick(), 1000 / this.config.speed!);
   }
-  setSnakeMoveDirection (key: Direction) {
-    const [dx, dy] = this.keyBindings[key];
+  setSnakeMoveDirection(key: Direction) {
+    const [dx, dy] = keyBindings[key];
     const dir = this.getDir(this.getVector(dx, dy));
     const lastDir = this.getDir(this.getVector(this.snake.lastDx, this.snake.lastDy));
     if (this.isNotStarted() || dir !== lastDir) {
@@ -76,7 +80,7 @@ export default class SnakeGame extends EventEmitter {
       this.snake.dy = dy;
     }
   }
-  tick () {
+  tick() {
     this.snake.move();
     if (this.snake.isDead()) {
       this.gameOver();
@@ -84,13 +88,16 @@ export default class SnakeGame extends EventEmitter {
     }
     this.printer.print();
   }
-  gameOver () {
+  gameOver() {
     this.gameOvered = true;
     this.emit('gameOver', true);
     this.printer.print();
     this.destroy();
   }
   destroy() {
-    clearInterval(this.interval);
+    if (this.interval !== null) {
+      clearInterval(this.interval);
+    }
+    this.interval = null;
   }
 }

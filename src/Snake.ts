@@ -9,12 +9,12 @@ export default class Snake {
   public lastDx = 0;
   public lastDy = 0;
   public body: Point[] = [];
-  constructor (public game: SnakeGame) {
+  constructor(public game: SnakeGame) {
     this.x = Math.round(this.game.width / 2);
     this.y = Math.round(this.game.height / 2);
     this.body.push(new Point(this.x, this.y));
   }
-  move () {
+  move() {
     this.x += this.dx;
     this.y += this.dy;
 
@@ -45,19 +45,20 @@ export default class Snake {
     this.lastDx = this.dx;
     this.lastDy = this.dy;
   }
-  eat (x: number, y: number) {
+  eat(x: number, y: number) {
     this.body.push(new Point(x, y));
   }
-  collide (x: number, y: number) {
+  collide(x: number, y: number) {
     return this.body.slice(1).find((p) => p.x === x && p.y === y);
   }
-  isDead () {
+  isDead() {
     if (this.collide(this.x, this.y)) {
       return true;
     }
-    if (this.game.config.moveThroughWall === false && (
-      this.x < 0 || this.x >= this.game.width || this.y < 0 || this.y >= this.game.height
-    )) {
+    if (
+      this.game.config.moveThroughWall === false &&
+      (this.x < 0 || this.x >= this.game.width || this.y < 0 || this.y >= this.game.height)
+    ) {
       return true;
     }
     return false;

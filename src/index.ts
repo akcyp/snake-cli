@@ -3,7 +3,7 @@ import SnakeGame from './SnakeGame';
 
 const game = new SnakeGame({
   moveThroughWall: false,
-  speed: 10
+  speed: 10,
 });
 game.on('gameOver', () => {
   process.stdin.on('keypress', () => process.exit());
