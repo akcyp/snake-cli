@@ -17,8 +17,9 @@
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
   },
+  "preferGlobal": true,
   "bin": {
-    "snake": "node ./lib/index.js"
+    "snake": "./lib/index.js"
   },
   "keywords": [
     "Snake",

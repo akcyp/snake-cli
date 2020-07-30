@@ -5,7 +5,7 @@ CLI Snake Game written in NodeJS
 ## Install
 
 ```bash
-npm i akcyp/snake-cli
+npm i akcyp/snake-cli -g
 ```
 
 ## Usage

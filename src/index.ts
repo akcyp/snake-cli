@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import inputController from './InputController';
 import SnakeGame from './SnakeGame';
 
