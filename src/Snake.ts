@@ -44,9 +44,11 @@ export default class Snake {
 
     this.lastDx = this.dx;
     this.lastDy = this.dy;
+    return this;
   }
   eat(x: number, y: number) {
     this.body.push(new Point(x, y));
+    return this;
   }
   collide(x: number, y: number) {
     return this.body.slice(1).find((p) => p.x === x && p.y === y);

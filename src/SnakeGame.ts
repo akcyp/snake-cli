@@ -84,10 +84,12 @@ export default class SnakeGame extends EventEmitter {
     this.on('destroy', () => {
       inputController.off('keypress', onEveryKeypress);
       inputController.off('keypress', onFirstKeypress);
-    })
+    });
+    return this;
   }
   start() {
     this.interval = setInterval(() => this.tick(), 1000 / this.config.speed!);
+    return this;
   }
   setSnakeMoveDirection(key: Vector) {
     const [dx, dy] = keyBindings[key];
@@ -96,7 +98,9 @@ export default class SnakeGame extends EventEmitter {
     if (this.isNotStarted() || dir !== lastDir) {
       this.snake.dx = dx;
       this.snake.dy = dy;
+      return true;
     }
+    return false;
   }
   tick() {
     this.snake.move();
@@ -105,12 +109,14 @@ export default class SnakeGame extends EventEmitter {
       return;
     }
     this.printer.print();
+    return this;
   }
   gameOver() {
     this.gameOvered = true;
     this.emit('gameOver', true);
     this.printer.print();
     this.destroy();
+    return this;
   }
   destroy() {
     if (this.interval !== null) {
@@ -118,5 +124,6 @@ export default class SnakeGame extends EventEmitter {
     }
     this.interval = null;
     this.emit('destroy');
+    return this;
   }
 }
