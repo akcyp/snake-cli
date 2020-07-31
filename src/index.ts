@@ -1,18 +1,12 @@
 #!/usr/bin/env node
 
-import inputController from './InputController';
 import SnakeGame from './SnakeGame';
 
 const game = new SnakeGame({
   moveThroughWall: false,
   speed: 10,
-});
-game.on('gameOver', () => {
+}).on('gameOver', () => {
   process.stdin.on('keypress', () => process.exit());
-});
+}).init();
 
-inputController.on('keypress', (name) => {
-  game.setSnakeMoveDirection(name);
-  // console.log(`You pressed the "${name}" key`);
-});
-inputController.once('keypress', () => game.start());
+

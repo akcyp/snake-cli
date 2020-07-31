@@ -1,3 +1,4 @@
+import inputController from './InputController';
 import Snake from './Snake';
 import Printer from './Printer';
 import FoodManager from './FoodManager';
@@ -68,10 +69,27 @@ export default class SnakeGame extends EventEmitter {
     this.foodManager = new FoodManager(this);
     this.printer.print();
   }
+  init () {
+    const self = this;
+    function onEveryKeypress (name: Vector) {
+      if (Object.values(Vector).includes(name)) {
+        self.setSnakeMoveDirection(name);
+      }
+    }
+    function onFirstKeypress () {
+      self.start();
+    }
+    inputController.on('keypress', onEveryKeypress);
+    inputController.once('keypress', onFirstKeypress);
+    this.on('destroy', () => {
+      inputController.off('keypress', onEveryKeypress);
+      inputController.off('keypress', onFirstKeypress);
+    })
+  }
   start() {
     this.interval = setInterval(() => this.tick(), 1000 / this.config.speed!);
   }
-  setSnakeMoveDirection(key: Direction) {
+  setSnakeMoveDirection(key: Vector) {
     const [dx, dy] = keyBindings[key];
     const dir = this.getDir(this.getVector(dx, dy));
     const lastDir = this.getDir(this.getVector(this.snake.lastDx, this.snake.lastDy));
@@ -99,5 +117,6 @@ export default class SnakeGame extends EventEmitter {
       clearInterval(this.interval);
     }
     this.interval = null;
+    this.emit('destroy');
   }
 }

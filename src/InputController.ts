@@ -12,9 +12,7 @@ process.stdin.on('keypress', (_, key) => {
   if (key.ctrl && key.name === 'c') {
     process.exit();
   } else {
-    if (Object.values(Vector).includes(key.name)) {
-      emitter.emit('keypress', key.name);
-    }
+    emitter.emit('keypress', key.name);
   }
 });
 
