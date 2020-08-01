@@ -63,7 +63,9 @@ export default class CLIMenu extends EventEmitter {
     }).join('\n');
   }
   print () {
+    const height = this.title.split('\n').length + this.options.reduce((prev, now) => prev + now.name.split('\n').length, 0) + 4;
     console.clear();
+    console.log('\n'.repeat(Math.floor(this.height - height) / 4));
     console.log(this.title);
     console.log('\n\n');
     for (let index = 0; index < this.options.length; index++) {
