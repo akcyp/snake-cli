@@ -67,7 +67,6 @@ export default class SnakeGame extends EventEmitter {
     );
     this.snake = new Snake(this);
     this.foodManager = new FoodManager(this);
-    this.printer.print();
   }
   init () {
     const self = this;
@@ -85,9 +84,11 @@ export default class SnakeGame extends EventEmitter {
       inputController.off('keypress', onEveryKeypress);
       inputController.off('keypress', onFirstKeypress);
     });
+    this.printer.print();
     return this;
   }
   start() {
+    this.printer.print();
     this.interval = setInterval(() => this.tick(), 1000 / this.config.speed!);
     return this;
   }

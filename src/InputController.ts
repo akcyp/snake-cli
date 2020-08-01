@@ -1,6 +1,4 @@
 import * as readline from 'readline';
-
-import { Vector } from './SnakeGame';
 import { EventEmitter } from 'events';
 
 const emitter = new EventEmitter();
