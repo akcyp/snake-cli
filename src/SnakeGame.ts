@@ -115,6 +115,7 @@ export default class SnakeGame extends EventEmitter {
   gameOver() {
     this.gameOvered = true;
     this.emit('gameOver', true);
+    this.snake.body = [...this.snake.lastBody];
     this.printer.print();
     this.destroy();
     return this;

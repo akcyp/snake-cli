@@ -9,6 +9,7 @@ export default class Snake {
   public lastDx = 0;
   public lastDy = 0;
   public body: Point[] = [];
+  public lastBody: Point[] = [];
   constructor(public game: SnakeGame) {
     this.x = Math.round(this.game.width / 2);
     this.y = Math.round(this.game.height / 2);
@@ -39,6 +40,8 @@ export default class Snake {
       }
     }
 
+    this.lastBody = [...this.body];
+
     this.body.unshift(new Point(this.x, this.y));
     this.body.pop();
 
@@ -53,14 +56,14 @@ export default class Snake {
   collide(x: number, y: number) {
     return this.body.slice(1).find((p) => p.x === x && p.y === y);
   }
+  isOutOfBox (x: number, y: number) {
+    return x < 0 || x >= this.game.width || y < 0 || y >= this.game.height;
+  }
   isDead() {
     if (this.collide(this.x, this.y)) {
       return true;
     }
-    if (
-      this.game.config.moveThroughWall === false &&
-      (this.x < 0 || this.x >= this.game.width || this.y < 0 || this.y >= this.game.height)
-    ) {
+    if (this.game.config.moveThroughWall === false && this.isOutOfBox(this.x, this.y)) {
       return true;
     }
     return false;
