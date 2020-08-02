@@ -23,9 +23,9 @@ const keyBindings: { [id: string]: [number, number] } = {
   down: [0, -1],
 };
 
-interface IGameConfig {
+export interface IGameConfig {
   moveThroughWall?: boolean;
-  speed?: number;
+  difficulty?: 'easy' | 'medium' | 'hard';
 }
 
 export default class SnakeGame extends EventEmitter {
@@ -37,6 +37,12 @@ export default class SnakeGame extends EventEmitter {
   public printer = new Printer(this);
   public width = Math.floor(process.stdout.columns / 2) - 2;
   public height = Math.floor(process.stdout.rows / 1) - 2;
+  public set <K extends keyof IGameConfig> (key: K, value: IGameConfig[K]) {
+    return this.config[key] = value;
+  }
+  public get <K extends keyof IGameConfig>(key: K): IGameConfig[K] {
+    return this.config[key];
+  }
   public isGameOver() {
     return this.gameOvered;
   }
@@ -61,7 +67,7 @@ export default class SnakeGame extends EventEmitter {
     this.config = Object.assign(
       {
         moveThroughWall: true,
-        speed: 1000,
+        difficulty: 'easy',
       },
       config,
     );
@@ -89,7 +95,7 @@ export default class SnakeGame extends EventEmitter {
   }
   start() {
     this.printer.print();
-    this.interval = setInterval(() => this.tick(), 1000 / this.config.speed!);
+    this.interval = setInterval(() => this.tick(), 1000 / this.snake.speed!);
     return this;
   }
   setSnakeMoveDirection(key: Vector) {

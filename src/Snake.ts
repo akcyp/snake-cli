@@ -10,6 +10,13 @@ export default class Snake {
   public lastDy = 0;
   public body: Point[] = [];
   public lastBody: Point[] = [];
+  public get speed () {
+    return ({
+      easy: 5,
+      medium: 10,
+      hard: 15
+    })[this.game.get('difficulty')!] || 5;
+  }
   constructor(public game: SnakeGame) {
     this.x = Math.round(this.game.width / 2);
     this.y = Math.round(this.game.height / 2);

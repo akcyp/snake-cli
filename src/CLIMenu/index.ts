@@ -1,23 +1,29 @@
 import chalk from 'chalk';
-import inputController from './InputController';
+import inputController from '../InputController';
 import { EventEmitter } from 'events';
 
-interface IMenuOption {
-  name: string,
-  callback?: (this: CLIMenu) => void
+import MenuOption, { IMenuOptions } from './MenuOptions';
+
+interface ICLIMenuOptions {
+  title?: string,
+  options?: IMenuOptions[],
+  parent?: CLIMenu
 }
 
 export default class CLIMenu extends EventEmitter {
   public width = process.stdout.columns;
   public height = process.stdout.rows;
   public title: string;
-  public options: IMenuOption[];
+  public options: MenuOption[];
+  public parent?: CLIMenu;
   public maxTextWidth: number;
   public selectedOption: number = 0;
-  constructor (settings: {title?: string, options?: IMenuOption[]} = {}) {
+  constructor (settings: ICLIMenuOptions = {}) {
     super();
-    this.title = this.center(settings.title || '', chalk.green);
-    this.options = (settings.options || []);
+    this.title = settings.title || '';
+    this.parent = settings.parent;
+    this.options = (settings.options || []).map(opt => new MenuOption(opt, this));
+
     this.maxTextWidth = Math.max(...(settings.options || []).map(option => option.name).concat(settings.title || '').map((str => this.calculateTextSize(str).width)));
   }
   init () {
@@ -32,7 +38,7 @@ export default class CLIMenu extends EventEmitter {
       } else if (name === 'return') {
         const selected = self.options[self.selectedOption];
         if (selected.callback) {
-          selected.callback.call(self);
+          selected.callback();
         }
       }
     }
@@ -66,7 +72,7 @@ export default class CLIMenu extends EventEmitter {
     const height = this.title.split('\n').length + this.options.reduce((prev, now) => prev + now.name.split('\n').length, 0) + 4;
     console.clear();
     console.log('\n'.repeat(Math.floor(this.height - height) / 4));
-    console.log(this.title);
+    console.log(this.center(this.title, chalk.green));
     console.log('\n\n');
     for (let index = 0; index < this.options.length; index++) {
       const option = this.options[index];
