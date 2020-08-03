@@ -20,6 +20,9 @@ snake
 ## Use as module
 
 ```js
+// CommonJS modules
+const SnakeGame = require('lasso-canvas-image').default;
+// ES6 modules with Babel or TypeScript
 import SnakeGame from 'snake-cli';
 const game = new SnakeGame({
   moveThroughWall: false,
