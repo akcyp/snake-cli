@@ -1,4 +1,4 @@
-import Point from './Point';
+import Point from '../helpers/Point';
 import SnakeGame from './SnakeGame';
 
 export default class Snake {

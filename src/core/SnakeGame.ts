@@ -1,4 +1,4 @@
-import inputController from './InputController';
+import inputController from '../helpers/InputController';
 import Snake from './Snake';
 import Printer from './Printer';
 import FoodManager from './FoodManager';

@@ -1,5 +1,5 @@
-import chalk, { white } from 'chalk';
-import inputController from '../InputController';
+import chalk from 'chalk';
+import inputController from '../helpers/InputController';
 import { EventEmitter } from 'events';
 
 import MenuOption, { IMenuOptions } from './MenuOptions';

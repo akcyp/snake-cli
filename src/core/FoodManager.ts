@@ -1,5 +1,5 @@
 import SnakeGame from './SnakeGame';
-import Point from './Point';
+import Point from '../helpers/Point';
 
 const getRandomInt = (min: number, max: number) => min + Math.floor(Math.random() * (max - min + 1));
 

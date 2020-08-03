@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import SnakeGame from './SnakeGame';
+import SnakeGame from './core/SnakeGame';
 import CLIMenu from './CLIMenu';
 
 if (require.main === module) {
