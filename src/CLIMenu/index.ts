@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import inputController from '../helpers/InputController';
+import cliConsole from '../helpers/Console';
 import { EventEmitter } from 'events';
 
 import MenuOption, { IMenuOptions } from './MenuOptions';
@@ -56,7 +57,7 @@ export default class CLIMenu extends EventEmitter {
     this.print();
   }
   destroy() {
-    console.clear();
+    cliConsole.clear();
     this.emit('destroy');
   }
   calculateTextSize(text: string) {
@@ -81,9 +82,9 @@ export default class CLIMenu extends EventEmitter {
   print() {
     const height =
       this.title.split('\n').length + this.options.reduce((prev, now) => prev + now.name.split('\n').length, 0);
-    console.clear();
-    console.log('\n'.repeat(Math.floor(this.height - height) / 4));
-    console.log(this.center(this.title, chalk.green));
+    cliConsole.clear();
+    cliConsole.log('\n'.repeat(Math.floor(this.height - height) / 4));
+    cliConsole.log(this.center(this.title, chalk.green));
     for (const option of this.options) {
       let title: string;
       const margin = Math.floor((this.maxTextWidth - option.name.length) / 2);
@@ -92,7 +93,7 @@ export default class CLIMenu extends EventEmitter {
       } else {
         title = this.center(option.name, (txt) => chalk.green(txt), margin);
       }
-      console.log(title);
+      cliConsole.log(title);
     }
   }
 }

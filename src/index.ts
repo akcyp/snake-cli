@@ -2,11 +2,13 @@
 
 import SnakeGame from './core/SnakeGame';
 import CLIMenu from './CLIMenu';
+import cliConsole from './helpers/Console';
 
 if (require.main === module) {
+  cliConsole.hideCursor();
   const Sleep = (ts: number) => new Promise((res) => setTimeout(res, ts));
   const blink = async () => {
-    console.clear();
+    cliConsole.clear();
     await Sleep(400);
     game.printer.print();
     await Sleep(400);
@@ -54,7 +56,7 @@ if (require.main === module) {
       {
         name: 'Exit',
         callback() {
-          console.clear();
+          cliConsole.reset();
           process.exit();
         },
       },
@@ -119,7 +121,7 @@ if (require.main === module) {
       {
         name: 'Exit',
         callback() {
-          console.clear();
+          cliConsole.reset();
           process.exit();
         },
       },

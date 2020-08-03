@@ -1,10 +1,11 @@
 import chalk from 'chalk';
 import SnakeGame from './SnakeGame';
+import cliConsole from '../helpers/Console';
 
 class Printer {
   constructor(public game: SnakeGame) {}
   print() {
-    console.clear();
+    cliConsole.clear();
     const wallChar = this.game.isGameOver() ? chalk.red('#') : '#';
     const rows = [];
     rows.push((wallChar + ' ').repeat(this.game.width + 2));
@@ -27,8 +28,7 @@ class Printer {
       rows.push(row);
     }
     rows.push((wallChar + ' ').repeat(this.game.width + 2));
-    process.stdout.write(rows.join('\n'));
-    process.stdout.write('\u001B[?25l');
+    cliConsole.log(rows.join('\n'));
   }
 }
 
