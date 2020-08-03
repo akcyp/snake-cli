@@ -37,10 +37,10 @@ export default class SnakeGame extends EventEmitter {
   public printer = new Printer(this);
   public width = Math.floor(process.stdout.columns / 2) - 2;
   public height = Math.floor(process.stdout.rows / 1) - 2;
-  public set <K extends keyof IGameConfig> (key: K, value: IGameConfig[K]) {
-    return this.config[key] = value;
+  public set<K extends keyof IGameConfig>(key: K, value: IGameConfig[K]) {
+    return (this.config[key] = value);
   }
-  public get <K extends keyof IGameConfig>(key: K): IGameConfig[K] {
+  public get<K extends keyof IGameConfig>(key: K): IGameConfig[K] {
     return this.config[key];
   }
   public isGameOver() {
@@ -74,14 +74,14 @@ export default class SnakeGame extends EventEmitter {
     this.snake = new Snake(this);
     this.foodManager = new FoodManager(this);
   }
-  init () {
+  init() {
     const self = this;
-    function onEveryKeypress (name: Vector) {
+    function onEveryKeypress(name: Vector) {
       if (Object.values(Vector).includes(name)) {
         self.setSnakeMoveDirection(name);
       }
     }
-    function onFirstKeypress () {
+    function onFirstKeypress() {
       self.start();
     }
     inputController.on('keypress', onEveryKeypress);
@@ -90,8 +90,14 @@ export default class SnakeGame extends EventEmitter {
       inputController.off('keypress', onEveryKeypress);
       inputController.off('keypress', onFirstKeypress);
     });
+    this.reset();
     this.printer.print();
     return this;
+  }
+  reset() {
+    this.gameOvered = false;
+    this.snake.reset();
+    this.foodManager.reset();
   }
   start() {
     this.printer.print();

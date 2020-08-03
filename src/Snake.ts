@@ -2,22 +2,33 @@ import Point from './Point';
 import SnakeGame from './SnakeGame';
 
 export default class Snake {
-  public x: number;
-  public y: number;
+  public x: number = 0;
+  public y: number = 0;
   public dx = 0;
   public dy = 0;
   public lastDx = 0;
   public lastDy = 0;
   public body: Point[] = [];
   public lastBody: Point[] = [];
-  public get speed () {
-    return ({
-      easy: 5,
-      medium: 10,
-      hard: 15
-    })[this.game.get('difficulty')!] || 5;
+  public get speed() {
+    return (
+      {
+        easy: 5,
+        medium: 10,
+        hard: 15,
+      }[this.game.get('difficulty')!] || 5
+    );
   }
   constructor(public game: SnakeGame) {
+    this.reset();
+  }
+  reset() {
+    this.dx = 0;
+    this.dy = 0;
+    this.lastDx = 0;
+    this.lastDy = 0;
+    this.body = [];
+    this.lastBody = [];
     this.x = Math.round(this.game.width / 2);
     this.y = Math.round(this.game.height / 2);
     this.body.push(new Point(this.x, this.y));
@@ -63,7 +74,7 @@ export default class Snake {
   collide(x: number, y: number) {
     return this.body.slice(1).find((p) => p.x === x && p.y === y);
   }
-  isOutOfBox (x: number, y: number) {
+  isOutOfBox(x: number, y: number) {
     return x < 0 || x >= this.game.width || y < 0 || y >= this.game.height;
   }
   isDead() {

@@ -5,9 +5,7 @@ const getRandomInt = (min: number, max: number) => min + Math.floor(Math.random(
 
 export default class FoodManager {
   public foods: Point[] = [];
-  constructor(public game: SnakeGame) {
-    this.add();
-  }
+  constructor(public game: SnakeGame) {}
   remove(x: number, y: number) {
     const index = this.foods.findIndex((p) => p.x === x && p.y === y);
     return this.foods.splice(index, 1)[0];
@@ -26,5 +24,9 @@ export default class FoodManager {
       }
     }
     return lottery[getRandomInt(0, lottery.length - 1)];
+  }
+  reset() {
+    this.foods = [];
+    this.add();
   }
 }
