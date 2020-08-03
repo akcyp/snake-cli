@@ -1,10 +1,16 @@
 let cursorHidden = false;
+let cleared = false;
 
 export default {
   log(...args: string[]) {
-    process.stdout.write('\n' + args.join('\n'));
+    if (!cleared) {
+      process.stdout.write('\n');
+    }
+    cleared = false;
+    process.stdout.write(args.join('\n'));
   },
   clear() {
+    cleared = true;
     console.clear();
   },
   hideCursor() {
