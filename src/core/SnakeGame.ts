@@ -35,8 +35,12 @@ export default class SnakeGame extends EventEmitter {
   public foodManager: FoodManager;
   public interval: NodeJS.Timeout | null = null;
   public printer = new Printer(this);
-  public width = Math.floor(process.stdout.columns / 2) - 2;
-  public height = Math.floor(process.stdout.rows / 1) - 2;
+  public get width () {
+    return Math.floor(process.stdout.columns / 2) - 2;
+  }
+  public get height () {
+    return Math.floor(process.stdout.rows / 1) - 2;
+  }
   public set<K extends keyof IGameConfig>(key: K, value: IGameConfig[K]) {
     return (this.config[key] = value);
   }

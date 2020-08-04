@@ -12,8 +12,9 @@ class Printer {
     for (let y = this.game.height - 1; y >= 0; y--) {
       let row = wallChar + ' ';
       for (let x = 0; x < this.game.width; x++) {
-        if (this.game.foodManager.foods.some((p) => p.x === x && p.y === y)) {
-          row += chalk.green('@ ');
+        const food = this.game.foodManager.find(x, y);
+        if (food) {
+          row += `${food.symbol} `;
         } else if (this.game.snake.body.some((p) => p.x === x && p.y === y)) {
           if (this.game.isGameOver()) {
             row += chalk.red('x ');

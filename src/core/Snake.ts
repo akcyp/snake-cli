@@ -10,15 +10,7 @@ export default class Snake {
   public lastDy = 0;
   public body: Point[] = [];
   public lastBody: Point[] = [];
-  public get speed() {
-    return (
-      {
-        easy: 5,
-        medium: 10,
-        hard: 15,
-      }[this.game.get('difficulty')!] || 5
-    );
-  }
+  public speed: number = 5;
   constructor(public game: SnakeGame) {
     this.reset();
   }
@@ -32,16 +24,18 @@ export default class Snake {
     this.x = Math.round(this.game.width / 2);
     this.y = Math.round(this.game.height / 2);
     this.body.push(new Point(this.x, this.y));
+    this.speed =
+      {
+        easy: 5,
+        medium: 10,
+        hard: 15,
+      }[this.game.get('difficulty')!] || 5;
   }
   move() {
     this.x += this.dx;
     this.y += this.dy;
 
-    if (this.game.foodManager.foods.some((p) => p.x === this.x && p.y === this.y)) {
-      this.game.foodManager.remove(this.x, this.y);
-      this.game.foodManager.add();
-      this.eat(this.x, this.y);
-    }
+    this.game.foodManager.find(this.x, this.y)?.use();
 
     if (this.game.config.moveThroughWall) {
       if (this.x === -1) {

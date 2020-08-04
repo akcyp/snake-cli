@@ -12,13 +12,18 @@ interface ICLIMenuOptions {
 }
 
 export default class CLIMenu extends EventEmitter {
-  public width = process.stdout.columns;
-  public height = process.stdout.rows;
+  public get width () {
+    return process.stdout.columns;
+  }
+  public get height () {
+    return process.stdout.rows;
+  }
   public title: string;
   public options: MenuOption[];
   public parent?: CLIMenu;
-  public maxTextWidth: number;
+  public maxTextWidth: number = 0;
   public selectedOption?: MenuOption;
+  public inited = false;
   constructor(settings: ICLIMenuOptions = {}) {
     super();
     this.title = settings.title || '';
@@ -26,15 +31,23 @@ export default class CLIMenu extends EventEmitter {
     this.options = (settings.options || []).map((opt) => new MenuOption(opt, this));
     this.selectedOption = this.options.filter((option) => !option.disabled)[0];
 
+    this.onResize();
+    process.stdout.on('resize', () => this.onResize());
+  }
+  onResize () {
     this.maxTextWidth = Math.max(
-      ...(settings.options || [])
-        .map((option) => option.name || '')
-        .concat(settings.title || '')
+      ...(this.options || [])
+        .map((option) => option.name)
+        .concat(this.title)
         .map((str) => this.calculateTextSize(str).width),
     );
+    if (this.inited) {
+      this.print();
+    }
   }
   init() {
     const self = this;
+    self.inited = true;
     function onKeyPress(name: string) {
       if (name === 'down' || name === 'up') {
         const arr = name === 'down' ? [...self.options] : [...self.options].reverse();
@@ -57,6 +70,7 @@ export default class CLIMenu extends EventEmitter {
     this.print();
   }
   destroy() {
+    this.inited = false;
     cliConsole.clear();
     this.emit('destroy');
   }
