@@ -21,7 +21,7 @@ snake
 
 ```js
 // CommonJS modules
-const SnakeGame = require('lasso-canvas-image').default;
+const SnakeGame = require('snake-cli').default;
 // ES6 modules with Babel or TypeScript
 import SnakeGame from 'snake-cli';
 const game = new SnakeGame({
