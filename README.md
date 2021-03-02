@@ -1,11 +1,11 @@
-# snake-cli
+# snake-cli-ts
 
-CLI Snake Game written in NodeJS
+CLI Snake Game written in NodeJS and TypeScript
 
 ## Install
 
 ```bash
-npm i akcyp/snake-cli -g
+npm i snake-cli-ts -g
 ```
 
 ## Usage
@@ -21,9 +21,9 @@ snake
 
 ```js
 // CommonJS modules
-const SnakeGame = require('snake-cli').default;
+const SnakeGame = require('snake-cli-ts').default;
 // ES6 modules with Babel or TypeScript
-import SnakeGame from 'snake-cli';
+import SnakeGame from 'snake-cli-ts';
 const game = new SnakeGame({
   moveThroughWall: false,
   difficulty: 'easy',
