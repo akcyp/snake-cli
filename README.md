@@ -2,15 +2,17 @@
 
 CLI Snake Game written in NodeJS and TypeScript
 
-## Install
-
-```bash
-npm i snake-cli-ts -g
-```
-
 ## Usage
 
 ```bash
+npx snake-cli-ts
+```
+
+or full install:
+
+```bash
+# Install
+npm i snake-cli-ts -g
 # Just type in console:
 snake
 ```
